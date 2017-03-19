@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Legend80s.GitHub.io by legend80s</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Legend80s.GitHub.io</h1>
+      <h2 class="project-tagline">Blog</h2>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="javascript-模拟-oop-语言的-static-变量" class="anchor" href="#javascript-%E6%A8%A1%E6%8B%9F-oop-%E8%AF%AD%E8%A8%80%E7%9A%84-static-%E5%8F%98%E9%87%8F" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>JavaScript 模拟 OOP 语言的 static 变量</h1>
+
+<p><em>TL;DR 直接拉到文章末尾看「重点」吧</em></p>
+
+<p>进入正题之前，我们先抛出一个问题，JavaScript 中静态变量通常是直接定义在类上面的，那么如何通过类的实例获取它的静态变量呢，示例代码如下：</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">class</span> <span class="pl-en">Parent</span> {}
+<span class="pl-smi">Parent</span>.<span class="pl-smi">staticProperty</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>Static property from Parent<span class="pl-pds">'</span></span>;</pre></div>
+
+<p>我们通常会尝试这么做：</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">const</span> <span class="pl-c1">parent</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Parent</span>();
+<span class="pl-smi">parent</span>.<span class="pl-smi">staticProperty</span>; <span class="pl-c"><span class="pl-c">//</span> undefined</span></pre></div>
+
+<p>这种模仿传统 OOP 语言的取法，似乎很自然、很符合直觉，但是取不到静态变量 <g-emoji alias="sob" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f62d.png" ios-version="6.0">😭</g-emoji>，因为在 JavaScript 中属性是按原型继承的，<code>staticProperty</code> 并没有定义在原型（<code>prototype</code>）上。但是一旦定义在原型上：<code>Parent.prototype.staticProperty = '...'</code>，就把它当做普通属性了，违背了静态变量的基本定义了。下面给出一种解决方法：</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-smi">parent</span>.<span class="pl-c1">constructor</span>.<span class="pl-smi">staticProperty</span>; <span class="pl-c"><span class="pl-c">//</span> 'Static property from Parent'</span></pre></div>
+
+<p>但此法甚为丑陋，暴露了太多底层细节，不够 Natural，不够 Intuitive，So Not elegant at all！</p>
+
+<p>进入正题，利用 <code>magic getter</code> 封装细节，结合上面的解决办法，我们提供一种更为优雅的解决方案，当然重点是和传统 OOP 语言静态变量的三条规则保持一致：</p>
+
+<ol>
+<li>既能通过类，也能直接通过实例获取</li>
+<li>支持继承</li>
+<li>支持重写</li>
+</ol>
+
+<p>直接看代码吧</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">class</span> <span class="pl-en">Parent</span> {
+  <span class="pl-k">get</span> <span class="pl-en">staticProperty</span>() {
+    <span class="pl-k">return</span> <span class="pl-c1">this</span>.<span class="pl-c1">constructor</span>.<span class="pl-smi">staticProperty</span>; <span class="pl-c"><span class="pl-c">//</span> late binding</span>
+  }
+}
+
+<span class="pl-smi">Parent</span>.<span class="pl-smi">staticProperty</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>Static property from Parent<span class="pl-pds">'</span></span>;</pre></div>
+
+<p>测试代码如下：</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">class</span> <span class="pl-en">Parent</span> {
+  <span class="pl-k">get</span> <span class="pl-en">staticProperty</span>() {
+    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">'</span>this.constructor.name:<span class="pl-pds">'</span></span>, <span class="pl-c1">this</span>.<span class="pl-c1">constructor</span>.<span class="pl-c1">name</span>); <span class="pl-c"><span class="pl-c">//</span> constructor will changed with the caller</span>
+    <span class="pl-k">return</span> <span class="pl-c1">this</span>.<span class="pl-c1">constructor</span>.<span class="pl-smi">staticProperty</span>; <span class="pl-c"><span class="pl-c">//</span> late binding</span>
+  }
+}
+
+<span class="pl-c"><span class="pl-c">//</span> 规则 1.1 直接通过类获取：Static property can be accessed by class</span>
+<span class="pl-smi">Parent</span>.<span class="pl-smi">staticProperty</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>Static property from Parent<span class="pl-pds">'</span></span>;
+
+<span class="pl-k">const</span> <span class="pl-c1">parent</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Parent</span>();
+
+<span class="pl-c"><span class="pl-c">//</span> 规则 1.2 也能直接通过实例获取：Static property can be accessed by it's instances</span>
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">'</span>parent.staticProperty:<span class="pl-pds">'</span></span>, <span class="pl-smi">parent</span>.<span class="pl-smi">staticProperty</span>); <span class="pl-c"><span class="pl-c">//</span> 'Static property from Parent'</span>
+
+<span class="pl-c"><span class="pl-c">//</span> Inheritance</span>
+<span class="pl-k">class</span> <span class="pl-en">Child</span> <span class="pl-k">extends</span> <span class="pl-e">Parent</span> {}
+
+<span class="pl-c"><span class="pl-c">//</span> 规则 2 支持继承：Static property can be inherited</span>
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">'</span>Child.staticProperty:<span class="pl-pds">'</span></span>, <span class="pl-smi">Child</span>.<span class="pl-smi">staticProperty</span>); <span class="pl-c"><span class="pl-c">//</span> 'Static property from Parent'</span>
+
+<span class="pl-c"><span class="pl-c">//</span> 规则 3 支持重写：Static property can be overwritten</span>
+<span class="pl-smi">Child</span>.<span class="pl-smi">staticProperty</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>Static property from Child<span class="pl-pds">'</span></span>;
+
+<span class="pl-k">const</span> <span class="pl-c1">child</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Child</span>();
+
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">'</span>child.staticProperty:<span class="pl-pds">'</span></span>, <span class="pl-smi">child</span>.<span class="pl-smi">staticProperty</span>); <span class="pl-c"><span class="pl-c">//</span> 'Static property from Child'</span></pre></div>
+
+<p>es7 支持直接在<a href="https://esdiscuss.org/topic/es7-property-initializers">类里面初始化静态变量</a>，但是目前从 babel 的<a href="https://babeljs.io/repl/#?babili=false&amp;evaluate=true&amp;lineWrap=false&amp;presets=es2015%2Cstage-2&amp;targets=&amp;browsers=&amp;builtIns=false&amp;code=class%20Counter%20%7B%0A%20%20static%20initialCount%20%3D%200%3B%0A%7D">编译结果</a>来看，也只是把静态变量挂载在类上面，不能完全模拟 OOP 语言的静态变量。</p>
+
+<h2>
+<a id="重点" class="anchor" href="#%E9%87%8D%E7%82%B9" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>重点</h2>
+
+<p>敲黑板，注意啦同学们，开始划重点啦 <g-emoji alias="grinning" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f600.png" ios-version="6.0">😀</g-emoji></p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">class</span> <span class="pl-en">Parent</span> {
+  <span class="pl-k">get</span> <span class="pl-en">staticProperty</span>() {
+    <span class="pl-k">return</span> <span class="pl-c1">this</span>.<span class="pl-c1">constructor</span>.<span class="pl-smi">staticProperty</span>; <span class="pl-c"><span class="pl-c">//</span> late binding</span>
+  }
+}
+
+<span class="pl-smi">Parent</span>.<span class="pl-smi">staticProperty</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>Static property from Parent<span class="pl-pds">'</span></span>;</pre></div>
+
+<h2>
+<a id="参考" class="anchor" href="#%E5%8F%82%E8%80%83" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>参考</h2>
+
+<ol>
+<li><a href="http://stackoverflow.com/questions/28445693/how-do-i-make-a-public-static-field-in-an-es6-class">http://stackoverflow.com/questions/28445693/how-do-i-make-a-public-static-field-in-an-es6-class</a></li>
+<li><a href="https://esdiscuss.org/topic/es7-property-initializers">https://esdiscuss.org/topic/es7-property-initializers</a></li>
+</ol>
+
+<p><strong><em>By OpenSearch前端团队 @ 搜索事业部 @ Alibaba</em></strong></p>
+
+      <footer class="site-footer">
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>

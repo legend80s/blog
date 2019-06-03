@@ -1,1 +1,1 @@
-## Welcome to My Programming Blog
+## Welcome to My Blog

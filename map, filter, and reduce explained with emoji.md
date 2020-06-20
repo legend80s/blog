@@ -19,15 +19,15 @@ map 是对单个材料的加工，最后返回对应的成品列表。比如牛�
 function cook(ingredient) {
   switch (ingredient) {
     case '🐮':
-			return '🍔';
+	return '🍔';
     case '🍠':
-			return '🍟';
+	return '🍟';
     case '🐔':
-			return '🍗';
+	return '🍗';
     case '🌽':
-			return '🍿';
-		default:
-			return '';
+	return '🍿';
+    default:
+	return '';
   }
 }
 ```

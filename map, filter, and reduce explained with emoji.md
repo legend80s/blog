@@ -2,9 +2,11 @@
 
 > map, filter, and reduce explained with emoji 😂
 
-<img src="https://camo.githubusercontent.com/58f08c75fb388dea2b6eba00f41a8d98e5f3647d/68747470733a2f2f692e726564642e69742f796637727733706a696170782e6a7067" alt="map-filter-reduce-in-emoji-1.png" style="zoom:50%;" />
+<p style="text-align:center;" align="center">
+  <img src="https://camo.githubusercontent.com/58f08c75fb388dea2b6eba00f41a8d98e5f3647d/68747470733a2f2f692e726564642e69742f796637727733706a696170782e6a7067" alt="map-filter-reduce-in-emoji-1.png" style="width:50%; text-align:center;" width="50%" align="center" />
+</p>
 
-函数式编程思想是 JavaScript 语言避其自身固有劣势的一个极佳工具或方法。map reduce filter 等方法是其典型。
+函数式编程思想是 JavaScript 语言避其自身固有劣势的一个极佳工具或方法。map reduce filter 等方法是函数式编程思想的典型工具。
 
 ## map
 

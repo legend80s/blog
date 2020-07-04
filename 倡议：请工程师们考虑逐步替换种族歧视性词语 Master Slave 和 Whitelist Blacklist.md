@@ -8,7 +8,7 @@ Google、GitHub 等都在替换种族歧视单词的行动中，虽然国内程�
 <p align="center">
   <img src="https://ata2-img.oss-cn-zhangjiakou.aliyuncs.com/f5604d09d4e6ea6c64b4237dc3c12687.png" alt="github 准备将 master 重命名成 main" style="zoom:50%;" width="50%" />
   <br>
-  <a style="font-style: italic;" href="https://twitter.com/natfriedman/status/1271253144442253312?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1271253144442253312%7Ctwgr%5E&ref_url=https%3A%2F%2Fwww.techspot.com%2Fnews%2F85631-github-replace-terms-whitelist-blacklist-masterslave-racially-insensitive.html">github 准备将 master 重命名成 main</a>
+  <a style="font-style: italic;" href="https://twitter.com/natfriedman/status/1271253144442253312?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1271253144442253312%7Ctwgr%5E&ref_url=https%3A%2F%2Fwww.techspot.com%2Fnews%2F85631-github-replace-terms-whitelist-blacklist-masterslave-racially-insensitive.html">github 准备将 master 重命名为 main</a>
 </p>
 
 微软、Github 已经表示正在火速下架所有相关词汇编程词汇，把 master 换成main（主要的），slave 换成secondary（次要的）。

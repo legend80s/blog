@@ -5,9 +5,11 @@ master slave 这些词语对于遭受过贩卖和奴役的种族或人群来说�
 
 Google、GitHub 等都在替换种族歧视单词的行动中，虽然国内程序员在使用 whitelist / blacklist 和 master / slave 等单词的时候不会潜意识将其和种族歧视联想到一起，但考虑到我们身处的互联网无分国界，我们坐在的公司其工程师也可能来自诸多国家，具备不同的文化背景，所以请工程师们从现在开始考虑将代码中 master slave 和 whitelist blacklist 等涉及种族歧视的词语渐进式替换成中性单词，虽然单纯替换这些令人反感的词语没法消除种族歧视的观念，但至少可以“让这个世界变得更友好”。我们最终的目标是让“master slave（主从）”和“blacklist whitelist（黑白名单）”等激进的表述从源码和交流表述中逐渐消失。
 
-<img src="https://ata2-img.oss-cn-zhangjiakou.aliyuncs.com/f5604d09d4e6ea6c64b4237dc3c12687.png" alt="github 准备将 master 重命名成 main" style="zoom:50%;" />
-
-*[github 准备将 master 重命名成 main](https://twitter.com/natfriedman/status/1271253144442253312?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1271253144442253312%7Ctwgr%5E&ref_url=https%3A%2F%2Fwww.techspot.com%2Fnews%2F85631-github-replace-terms-whitelist-blacklist-masterslave-racially-insensitive.html)*
+<p align="center">
+  <img src="https://ata2-img.oss-cn-zhangjiakou.aliyuncs.com/f5604d09d4e6ea6c64b4237dc3c12687.png" alt="github 准备将 master 重命名成 main" style="zoom:50%;" width="50%" />
+  <br>
+  <a style="font-style: italic;" href="https://twitter.com/natfriedman/status/1271253144442253312?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1271253144442253312%7Ctwgr%5E&ref_url=https%3A%2F%2Fwww.techspot.com%2Fnews%2F85631-github-replace-terms-whitelist-blacklist-masterslave-racially-insensitive.html">github 准备将 master 重命名成 main</a>
+</p>
 
 微软、Github 已经表示正在火速下架所有相关词汇编程词汇，把 master 换成main（主要的），slave 换成secondary（次要的）。
 
